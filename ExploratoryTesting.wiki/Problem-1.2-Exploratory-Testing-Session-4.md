@@ -10,11 +10,7 @@ Projects
 macOS
 ### Start Time:
 11:00 PM 09/28/2022
-### Testers:
-| name       | email                  | id        |
-| ---------- | ---------------------- | --------- |
-| Ruoli Wang | ruoli.wang@mail.mcgill.ca | 260833864 |
-| Haipeng Yue | haipeng.yue@mail.mcgill.ca|260826693  |
+
 ### Duration:
 60 minutes
 ### Test Notes:
