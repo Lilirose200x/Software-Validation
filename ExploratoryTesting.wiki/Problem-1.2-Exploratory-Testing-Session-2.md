@@ -10,11 +10,6 @@ Interoperability
 Windows10
 ### Start Time:
 11:00 AM 09/26/2022
-### Testers:
-| name       | email                  | id        |
-| ---------- | ---------------------- | --------- |
-| Zimu Su | zimu.su@mail.mcgill.ca | 260848487 |
-| Viet Tran | viet.tran3@mail.mcgill.ca | 260924954 |
 ### Duration:
 60 minutes
 ### Test Notes:
