@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+const int N = 3;
+int[0,N] t = 0;
+bool x[N+1];</declaration>
+	<template>
+		<name x="5" y="5">A3Model</name>
+		<parameter>bool &amp;x[N+1], int i</parameter>
+		<declaration>// Place local declarations here.
+bool is_other_running(int my_i, bool my_x[N+1]) {
+    for(j : int [1,N]) {
+        if(j != my_i &amp;&amp; my_x[j] == true) {
+            return true;
+        }
+    }
+
+    return false;
+}</declaration>
+		<location id="id0" x="68" y="-213">
+			<name x="17" y="-221">idle</name>
+		</location>
+		<location id="id1" x="255" y="-145">
+			<name x="238" y="-128">xi_true</name>
+		</location>
+		<location id="id2" x="595" y="-145">
+			<name x="586" y="-128">wait</name>
+		</location>
+		<location id="id3" x="255" y="-323">
+			<name x="238" y="-366">critical</name>
+		</location>
+		<location id="id4" x="595" y="-323">
+			<name x="586" y="-357">in_loop_xi_true_t_i</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="111" y="-315">t := 0,
+x[i] := false</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="663" y="-264">t==0||t==i</label>
+			<label kind="assignment" x="663" y="-247">t:= i,
+x[i]:= true</label>
+			<nail x="646" y="-196"/>
+			<nail x="646" y="-289"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="323" y="-349">is_other_running(i, x) == false</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="guard" x="416" y="-264">is_other_running(i, x) == true</label>
+			<label kind="assignment" x="476" y="-247">x[i] := false</label>
+			<nail x="552" y="-289"/>
+			<nail x="552" y="-196"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="323" y="-170">is_other_running(i, x) == true</label>
+			<label kind="assignment" x="374" y="-145">x[i] := false</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="145" y="-238">is_other_running(i, x) == false</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="111" y="-179">x[i] := true</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Process1 = A3Model(x, 1);
+Process2 = A3Model(x, 2);
+Process3 = A3Model(x, 3);
+// List one or more processes to be composed into a system.
+system Process1, Process2, Process3;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not(Process3.critical and Process2.critical)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not(Process1.critical and Process3.critical)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not(Process1.critical and Process2.critical)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt;Process3.critical</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt;Process2.critical</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt;Process1.critical</formula>
+			<comment>Process1 gets to use the critical section.</comment>
+		</query>
+	</queries>
+</nta>

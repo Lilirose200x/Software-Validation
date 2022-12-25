@@ -1,0 +1,78 @@
+public interface CarController {
+	
+	/**
+	 * Returns the current speed of the car 
+	 * @return current speed
+	 */
+	public int getCurrentSpeed();
+	
+	/**
+	 * A function called when the brake is activated by the driver.
+	 */
+	public void brakeActivated();
+
+	/**
+	 * Forces the car to reach a designated target speed (by accelerating or decelerating as needed) 
+	 * @param targetSpeed designated target speed 
+	 */
+	public void reachTargetSpeed(int targetSpeed);
+	
+}
+
+public interface CruiseController {
+		
+	/**
+	 * Turns on and off the cruise control functionality. All other functions are only meaningful if 
+	 * the cruise controller is already turned on. 
+	 */
+	public void toggleCruise();
+
+
+	/**
+	 * Activates the cruise control by setting the target speed to the current speed, 
+	 * or decelerates by a predefined step when the cruise control is activated
+	 */
+	public void setSpeedDecel();
+	
+	/**
+	 * Cancels an activated cruise controller and stores the last target speed.
+	 */
+	public void cancelCruise();
+	
+	/**
+	 * Reactivates cruise control by resuming at the last target speed, or 
+	 * increases the target speed of the vehicle by a predefined step when the cruise control is activated
+	 */
+	public void resumeCruiseAccel();
+	
+	/**
+	 * Sets the car controller used by cruise controller 
+	 * @param aCarController
+	 */
+	public void setCarController(CarController aSensor);
+	
+	/**
+	 * A function called when the brake is activated by the driver.
+	 */
+	public void brakeActivated();
+	
+	/**
+	 * Returns the target speed of cruise control - or zero if not active 
+	 * @return target speed 
+	 */
+	public int getTargetSpeed();
+	
+	/**
+	 * Returns the actual status of the cruise controller
+	 * @return status of the cruise controller
+	 */
+	public CruiseControllerStatus getCruiseControllerStatus();
+
+}
+
+public enum CruiseControllerStatus {
+	OFF,
+	PASSIVE,
+	ACTIVE,
+	CANCELLED
+}
